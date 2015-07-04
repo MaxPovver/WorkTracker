@@ -1,9 +1,7 @@
 package com.maxpovver.worktracker;
 
-import com.maxpovver.worktracker.entities.User;
-import com.maxpovver.worktracker.respositories.UserRepository;
+import com.maxpovver.worktracker.respositories.*;
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
@@ -15,8 +13,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class DBUtility {
 
-    public static UserRepository getUserRepository() {
+    public static UserRepository users() {
         return (UserRepository)ctx.getBean("userRepository");
+    }
+
+    public static LogRepository logs() {
+        return (LogRepository)ctx.getBean("logRepository");
+    }
+
+    public static JobRepository jobs() {
+        return (JobRepository)ctx.getBean("jobRepository");
     }
 
     public static ApplicationContext ctx = new ClassPathXmlApplicationContext("spring-config.xml");

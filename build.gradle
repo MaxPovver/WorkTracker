@@ -20,7 +20,7 @@ apply plugin: 'application'
 apply plugin: 'idea'
 apply plugin: 'spring-boot'
 
-mainClassName='com.maxpovver.worktracker.Launcher'
+mainClassName='com.maxpovver.Application'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -31,12 +31,15 @@ jar {
 }
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-web")
+    compile group: 'org.springframework', name: 'spring-core', version:'4.1.7.RELEASE'
+    compile group: 'org.springframework', name: 'spring-jpa', version:'2.0.8'
+    compile group: 'org.springframework', name: 'spring-webmvc', version:'4.1.7.RELEASE'
+    compile group: 'org.springframework', name: 'spring-web', version:'4.1.7.RELEASE'
+    compile group: 'org.springframework.data', name: 'spring-data-jpa', version:'1.8.1.RELEASE'
+    compile group: 'javax.servlet', name: 'javax.servlet-api', version:'3.1.0'
     compile 'mysql:mysql-connector-java:5.1.31'
     compile 'commons-dbcp:commons-dbcp:1.4'
     compile group: 'org.hibernate', name: 'hibernate-entitymanager', version: '4.3.9.Final'
-   // compile 'org.hibernate:hibernate-jpamodelgen:4.3.9.Final'
-    compile("org.springframework.boot:spring-boot-starter-data-jpa")
     testCompile("junit:junit")
 }
 
