@@ -14,9 +14,7 @@ import static com.maxpovver.worktracker.DBUtility.getUserRepository;
 @Component
 public class Launcher {
     public static void main(String[] args) {
-       // getFactory().openSession();
         List<User> user = getUserRepository().findByUsername("Test");
         System.out.print("Launched " + user);
-       // getFactory().getCurrentSession().close();
     }
 }
