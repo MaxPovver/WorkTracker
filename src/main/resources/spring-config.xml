@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
        <!-- Hibernate session factory -->
-       <bean id="sessionFactory"
+       <bean id="mySessionFactory"
              class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 
               <property name="dataSource" ref="dataSource"/>
@@ -22,7 +23,6 @@
                             <value>com.maxpovver.worktracker.entities.Log</value>
                      </list>
               </property>
-
        </bean>
        <bean id="dataSource"
              class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -31,4 +31,36 @@
               <property name="username" value="root" />
               <property name="password" value="" />
        </bean>
+    <jpa:repositories base-package="com.maxpovver.worktracker.respositories"/>
+
+    <bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+        <property name="showSql" value="true"/>
+        <property name="generateDdl" value="true"/>
+        <property name="database" value="MYSQL"/>
+    </bean>
+
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="jpaVendorAdapter" ref="jpaVendorAdapter"/>
+        <!-- spring based scanning for entity classes>-->
+        <property name="packagesToScan" value="com.maxpovver.worktracker"/>
+        <property name="jpaProperties">
+            <value>
+                <!--hibernate.cache.use_second_level_cache = true
+                hibernate.cache.region.factory_class = org.hibernate.cache.ehcache.EhCacheRegionFactory
+                hibernate.cache.use_query_cache = true
+                hibernate.generate_statistics = true-->
+                hibernate.enable_lazy_load_no_trans = true
+                hibernate.current_session_context_class = thread
+            </value>
+        </property>
+    </bean>
+    <!-- Enables the Hibernate @Transactional programming model -->
+    <tx:annotation-driven transaction-manager="transactionManager" />
+
+    <bean id="transactionManager"
+          class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="mySessionFactory" />
+        <property name="hibernateManagedSession" value="true"/>
+    </bean>
 </beans>

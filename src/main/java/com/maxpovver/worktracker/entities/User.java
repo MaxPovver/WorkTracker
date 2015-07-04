@@ -1,5 +1,11 @@
 package com.maxpovver.worktracker.entities;
 
+import com.maxpovver.worktracker.DBUtility;
+import org.hibernate.Hibernate;
+import org.hibernate.LazyInitializationException;
+import org.hibernate.collection.internal.PersistentBag;
+import org.springframework.context.annotation.Lazy;
+
 import javax.persistence.*;
 import java.util.Collection;
 
@@ -61,7 +67,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "["+getUsername()+"="+getPassword()+", "
-                +jobs.stream().map(Job::toString).collect(joining(", "))+"]";
+            return "[" + getUsername() + "=" + getPassword() + ", "
+                    + getJobs().stream().map(Job::toString).collect(joining(", ")) + "]";
     }
 }

@@ -84,6 +84,6 @@ public class Job {
     @Override
     public String toString() {
         return "Job["+name+", "+salary+" "+currency+", "+
-                logs.stream().map(Log::toString).collect(joining(","))+"]";
+                getLogs().stream().map(Log::toString).collect(joining(","))+"]";
     }
 }
